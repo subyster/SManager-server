@@ -9,7 +9,7 @@ class Item {
 
   category: string;
 
-  constructor(name: string, price: number, category: string) {
+  constructor({ name, price, category }: Omit<Item, 'id'>) {
     this.id = uuid();
     this.name = name;
     this.price = price;

@@ -8,8 +8,12 @@ class ItemsRepository {
     this.items = [];
   }
 
+  public listItems(): Item[] {
+    return this.items;
+  }
+
   public create({ name, price, category }: ICreateItemDTO): Item {
-    const item = new Item(name, price, category);
+    const item = new Item({ name, price, category });
 
     this.items.push(item);
 
