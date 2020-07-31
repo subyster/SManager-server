@@ -1,23 +1,24 @@
 import { Router } from 'express';
 
+import { getCustomRepository } from 'typeorm';
 import ItemsRepository from '../../typeorm/repositories/ItemsRepository';
 import CreateItemService from '../../../services/CreateItemService';
 
 const itemsRouter = Router();
-const itemsRepository = new ItemsRepository();
 
-itemsRouter.get('/', (request, response) => {
-  const items = itemsRepository.listItems();
+itemsRouter.get('/', async (request, response) => {
+  const itemsRepository = getCustomRepository(ItemsRepository);
+  const items = await itemsRepository.find();
 
   return response.json(items);
 });
 
-itemsRouter.post('/', (request, response) => {
+itemsRouter.post('/', async (request, response) => {
   const { name, price, category } = request.body;
 
-  const createItem = new CreateItemService(itemsRepository);
+  const createItem = new CreateItemService();
 
-  const item = createItem.execute({ name, price, category });
+  const item = await createItem.execute({ name, price, category });
 
   return response.json(item);
 });

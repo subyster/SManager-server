@@ -1,20 +1,43 @@
-import { uuid } from 'uuidv4';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import User from '../../../../user/infra/typeorm/entities/User';
 
+@Entity('items')
 class Item {
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column()
+  user_id: string;
+
+  @ManyToOne(() => User)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
+
+  @Column()
   name: string;
 
+  @Column()
   price: number;
 
+  @Column()
   category: string;
 
-  constructor({ name, price, category }: Omit<Item, 'id'>) {
-    this.id = uuid();
-    this.name = name;
-    this.price = price;
-    this.category = category;
-  }
+  @Column()
+  size: string;
+
+  @CreateDateColumn()
+  created_at: Date;
+
+  @UpdateDateColumn()
+  updated_at: Date;
 }
 
 export default Item;

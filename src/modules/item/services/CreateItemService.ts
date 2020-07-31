@@ -1,3 +1,5 @@
+import { getCustomRepository } from 'typeorm';
+
 import Item from '../infra/typeorm/entities/Item';
 import ItemsRepository from '../infra/typeorm/repositories/ItemsRepository';
 
@@ -8,14 +10,12 @@ interface IRequest {
 }
 
 class CreateItemService {
-  private itemsRepository: ItemsRepository;
+  public async execute({ name, price, category }: IRequest): Promise<Item> {
+    const itemsRepository = getCustomRepository(ItemsRepository);
 
-  constructor(itemsRepository: ItemsRepository) {
-    this.itemsRepository = itemsRepository;
-  }
+    const item = itemsRepository.create({ name, price, category });
 
-  public execute({ name, price, category }: IRequest): Item {
-    const item = this.itemsRepository.create({ name, price, category });
+    await itemsRepository.save(item);
 
     return item;
   }
