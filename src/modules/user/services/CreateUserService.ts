@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
 import User from '../infra/typeorm/entities/User';
+import AppError from '../../../shared/errors/AppError';
 
 interface IRequest {
   name: string;
@@ -38,7 +39,7 @@ class CreateUserService {
     });
 
     if (checkEmailExists) {
-      throw new Error('Email address already in use');
+      throw new AppError('Email address already in use');
     }
 
     const checkCpfExists = await usersRepository.findOne({
@@ -46,7 +47,7 @@ class CreateUserService {
     });
 
     if (checkCpfExists) {
-      throw new Error('CPF number already in use');
+      throw new AppError('CPF number already in use');
     }
 
     const hashedPassword = await hash(password, 8);
