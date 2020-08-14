@@ -1,30 +1,19 @@
 import { Router } from 'express';
 
-import { getCustomRepository } from 'typeorm';
-import ItemsRepository from '../../typeorm/repositories/ItemsRepository';
-import CreateItemService from '../../../services/CreateItemService';
-
-import ensureAuthenticated from '../../../../user/infra/http/middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuthenticated';
+import ItemsController from '../controllers/ItemsController';
 
 const itemsRouter = Router();
+const itemsController = new ItemsController();
 
 itemsRouter.use(ensureAuthenticated);
 
-itemsRouter.get('/', async (request, response) => {
-  const itemsRepository = getCustomRepository(ItemsRepository);
-  const items = await itemsRepository.find();
+// itemsRouter.get('/', async (request, response) => {
+//   const items = await itemsRepository.find();
 
-  return response.json(items);
-});
+//   return response.json(items);
+// });
 
-itemsRouter.post('/', async (request, response) => {
-  const { name, price, category } = request.body;
-
-  const createItem = new CreateItemService();
-
-  const item = await createItem.execute({ name, price, category });
-
-  return response.json(item);
-});
+itemsRouter.post('/', itemsController.create);
 
 export default itemsRouter;

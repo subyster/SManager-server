@@ -1,8 +1,9 @@
-import { getRepository } from 'typeorm';
 import { hash } from 'bcryptjs';
 
+import AppError from '@shared/errors/AppError';
+import { injectable, inject } from 'tsyringe';
 import User from '../infra/typeorm/entities/User';
-import AppError from '../../../shared/errors/AppError';
+import IUsersRepository from '../repositories/IUsersRepository';
 
 interface IRequest {
   name: string;
@@ -18,7 +19,13 @@ interface IRequest {
   password: string;
 }
 
+@injectable()
 class CreateUserService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
+
   public async execute({
     name,
     surname,
@@ -32,19 +39,13 @@ class CreateUserService {
     email,
     password,
   }: IRequest): Promise<User> {
-    const usersRepository = getRepository(User);
-
-    const checkEmailExists = await usersRepository.findOne({
-      where: { email },
-    });
+    const checkEmailExists = await this.usersRepository.findByEmail(email);
 
     if (checkEmailExists) {
       throw new AppError('Email address already in use');
     }
 
-    const checkCpfExists = await usersRepository.findOne({
-      where: { cpf },
-    });
+    const checkCpfExists = await this.usersRepository.findByCpf(cpf);
 
     if (checkCpfExists) {
       throw new AppError('CPF number already in use');
@@ -52,7 +53,7 @@ class CreateUserService {
 
     const hashedPassword = await hash(password, 8);
 
-    const user = usersRepository.create({
+    const user = await this.usersRepository.create({
       name,
       surname,
       cpf,
@@ -65,8 +66,6 @@ class CreateUserService {
       email,
       password: hashedPassword,
     });
-
-    await usersRepository.save(user);
 
     return user;
   }

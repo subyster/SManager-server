@@ -1,5 +1,7 @@
 export default interface ICreateItemDTO {
+  user_id: string;
   name: string;
-  price: number;
-  category: 'Roupas' | 'Livros' | 'Acessórios';
+  category_id: string;
+  size?: string;
+  price?: number;
 }

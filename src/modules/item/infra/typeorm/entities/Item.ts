@@ -7,7 +7,9 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import User from '../../../../user/infra/typeorm/entities/User';
+
+import User from '@modules/user/infra/typeorm/entities/User';
+import Category from './Category';
 
 @Entity('items')
 class Item {
@@ -22,13 +24,17 @@ class Item {
   user: User;
 
   @Column()
+  category_id: string;
+
+  @ManyToOne(() => Category)
+  @JoinColumn({ name: 'category_id' })
+  category: Category;
+
+  @Column()
   name: string;
 
   @Column()
   price: number;
-
-  @Column()
-  category: string;
 
   @Column()
   size: string;

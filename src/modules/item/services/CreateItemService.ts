@@ -1,21 +1,37 @@
-import { getCustomRepository } from 'typeorm';
+import { injectable, inject } from 'tsyringe';
 
 import Item from '../infra/typeorm/entities/Item';
-import ItemsRepository from '../infra/typeorm/repositories/ItemsRepository';
+import IItemsRepository from '../repositories/IItemsRepository';
 
 interface IRequest {
+  user_id: string;
   name: string;
-  price: number;
-  category: 'Roupas' | 'Livros' | 'Acessórios';
+  price?: number;
+  category_id: string;
+  size?: string;
 }
 
+@injectable()
 class CreateItemService {
-  public async execute({ name, price, category }: IRequest): Promise<Item> {
-    const itemsRepository = getCustomRepository(ItemsRepository);
+  constructor(
+    @inject('ItemsRepository')
+    private itemsRepository: IItemsRepository,
+  ) {}
 
-    const item = itemsRepository.create({ name, price, category });
-
-    await itemsRepository.save(item);
+  public async execute({
+    user_id,
+    name,
+    price,
+    category_id,
+    size,
+  }: IRequest): Promise<Item> {
+    const item = await this.itemsRepository.create({
+      user_id,
+      name,
+      price,
+      category_id,
+      size,
+    });
 
     return item;
   }
