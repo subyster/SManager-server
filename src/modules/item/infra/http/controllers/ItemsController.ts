@@ -5,7 +5,8 @@ import CreateItemService from '@modules/item/services/CreateItemService';
 
 export default class ItemsController {
   public async create(request: Request, response: Response): Promise<Response> {
-    const { user_id, name, price, category_id, size } = request.body;
+    const user_id = request.user.id;
+    const { name, price, category_id, size } = request.body;
 
     const createItem = container.resolve(CreateItemService);
 
