@@ -8,6 +8,8 @@ const categoriesController = new CategoriesController();
 
 categoriesRouter.use(ensureAuthenticated);
 
+categoriesRouter.get('/', categoriesController.index);
+
 categoriesRouter.post('/', categoriesController.create);
 
 export default categoriesRouter;

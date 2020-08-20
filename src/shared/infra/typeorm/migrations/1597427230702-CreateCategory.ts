@@ -22,6 +22,7 @@ export default class CreateCategory1597427230702 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isUnique: true,
           },
           {
             name: 'created_at',
@@ -42,8 +43,8 @@ export default class CreateCategory1597427230702 implements MigrationInterface {
     await queryRunner.addColumn(
       'items',
       new TableColumn({
-        name: 'category_id',
-        type: 'uuid',
+        name: 'category_name',
+        type: 'varchar',
         isNullable: true,
       }),
     );
@@ -52,8 +53,8 @@ export default class CreateCategory1597427230702 implements MigrationInterface {
       'items',
       new TableForeignKey({
         name: 'ItemCategory',
-        columnNames: ['category_id'],
-        referencedColumnNames: ['id'],
+        columnNames: ['category_name'],
+        referencedColumnNames: ['name'],
         referencedTableName: 'categories',
         onDelete: 'SET NULL',
         onUpdate: 'CASCADE',
@@ -64,7 +65,7 @@ export default class CreateCategory1597427230702 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('items', 'ItemCategory');
 
-    await queryRunner.dropColumn('items', 'category_id');
+    await queryRunner.dropColumn('items', 'category_name');
 
     await queryRunner.addColumn(
       'items',

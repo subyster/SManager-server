@@ -2,8 +2,20 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateUserService from '@modules/user/services/CreateUserService';
+import { classToClass } from 'class-transformer';
+import ListUsersService from '@modules/user/services/ListUsersService';
 
 export default class UsersController {
+  public async index(request: Request, response: Response): Promise<Response> {
+    const user_id = request.user.id;
+
+    const listUsers = container.resolve(ListUsersService);
+
+    const users = await listUsers.execute({ user_id });
+
+    return response.json(classToClass(users));
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const {
       name,
@@ -35,8 +47,6 @@ export default class UsersController {
       password,
     });
 
-    delete user.password;
-
-    return response.json(user);
+    return response.json(classToClass(user));
   }
 }

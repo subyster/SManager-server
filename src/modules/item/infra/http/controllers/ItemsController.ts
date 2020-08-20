@@ -2,11 +2,23 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 
 import CreateItemService from '@modules/item/services/CreateItemService';
+import ListAllItemsService from '@modules/item/services/ListAllItemsService';
+import { classToClass } from 'class-transformer';
 
 export default class ItemsController {
+  public async index(request: Request, response: Response): Promise<Response> {
+    const listItems = container.resolve(ListAllItemsService);
+
+    const items = await listItems.execute();
+
+    return response.json(classToClass(items));
+  }
+
   public async create(request: Request, response: Response): Promise<Response> {
     const user_id = request.user.id;
-    const { name, price, category_id, size } = request.body;
+    const { name, price, category_name, size } = request.body;
+
+    const avatar = request.file.filename;
 
     const createItem = container.resolve(CreateItemService);
 
@@ -14,10 +26,11 @@ export default class ItemsController {
       user_id,
       name,
       price,
-      category_id,
+      category_name,
       size,
+      avatar,
     });
 
-    return response.json(item);
+    return response.json(classToClass(item));
   }
 }

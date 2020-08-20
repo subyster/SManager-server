@@ -11,6 +11,12 @@ class CategoriesRepository implements ICategoriesRepository {
     this.ormRepository = getRepository(Category);
   }
 
+  public async findAllCategories(): Promise<Category[]> {
+    const categories = await this.ormRepository.find();
+
+    return categories;
+  }
+
   public async findByName(name: string): Promise<Category | undefined> {
     const category = await this.ormRepository.findOne({
       where: { name },

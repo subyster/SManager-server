@@ -7,6 +7,12 @@ import Category from '@modules/item/infra/typeorm/entities/Category';
 class FakeCategoriesRepository implements ICategoriesRepository {
   private categories: Category[] = [];
 
+  public async findAllCategories(): Promise<Category[]> {
+    const { categories } = this;
+
+    return categories;
+  }
+
   public async findByName(name: string): Promise<Category | undefined> {
     const findCategory = this.categories.find(
       category => category.name === name,

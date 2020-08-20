@@ -1,19 +1,22 @@
 import { Router } from 'express';
+import multer from 'multer';
+
+import uploadConfig from '@config/upload';
 
 import ensureAuthenticated from '@modules/user/infra/http/middlewares/ensureAuthenticated';
 import ItemsController from '../controllers/ItemsController';
+import UserItemsController from '../controllers/UserItemsController';
 
 const itemsRouter = Router();
 const itemsController = new ItemsController();
+const userItemsController = new UserItemsController();
+const upload = multer(uploadConfig);
 
 itemsRouter.use(ensureAuthenticated);
 
-// itemsRouter.get('/', async (request, response) => {
-//   const items = await itemsRepository.find();
+itemsRouter.get('/', itemsController.index);
+itemsRouter.get('/:user_id', userItemsController.index);
 
-//   return response.json(items);
-// });
-
-itemsRouter.post('/', itemsController.create);
+itemsRouter.post('/', upload.single('avatar'), itemsController.create);
 
 export default itemsRouter;
