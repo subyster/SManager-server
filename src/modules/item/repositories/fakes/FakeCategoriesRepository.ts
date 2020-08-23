@@ -30,6 +30,10 @@ class FakeCategoriesRepository implements ICategoriesRepository {
 
     return category;
   }
+
+  public async delete(name: string): Promise<void> {
+    // TODO
+  }
 }
 
 export default FakeCategoriesRepository;

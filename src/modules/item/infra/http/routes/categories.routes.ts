@@ -12,4 +12,6 @@ categoriesRouter.get('/', categoriesController.index);
 
 categoriesRouter.post('/', categoriesController.create);
 
+categoriesRouter.delete('/:name', categoriesController.delete);
+
 export default categoriesRouter;
