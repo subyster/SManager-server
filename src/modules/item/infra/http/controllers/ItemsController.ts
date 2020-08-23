@@ -4,6 +4,7 @@ import { container } from 'tsyringe';
 import CreateItemService from '@modules/item/services/CreateItemService';
 import ListAllItemsService from '@modules/item/services/ListAllItemsService';
 import { classToClass } from 'class-transformer';
+import UpdateItemService from '@modules/item/services/UpdateItemService';
 
 export default class ItemsController {
   public async index(request: Request, response: Response): Promise<Response> {
@@ -28,6 +29,29 @@ export default class ItemsController {
       price,
       category_name,
       size,
+      avatar,
+    });
+
+    return response.json(classToClass(item));
+  }
+
+  public async update(request: Request, response: Response): Promise<Response> {
+    const { item_id } = request.params;
+
+    const avatar = request.file.filename;
+
+    const { user_id, name, price, category_name, size, status } = request.body;
+
+    const updateItem = container.resolve(UpdateItemService);
+
+    const item = await updateItem.execute({
+      item_id,
+      user_id,
+      name,
+      price,
+      category_name,
+      size,
+      status,
       avatar,
     });
 

@@ -32,7 +32,15 @@ class FakeCategoriesRepository implements ICategoriesRepository {
   }
 
   public async delete(name: string): Promise<void> {
-    // TODO
+    const category = await this.findByName(name);
+
+    if (category) {
+      const categoryIndex = this.categories.findIndex(
+        findCategory => findCategory.id === category.id,
+      );
+
+      this.categories.splice(categoryIndex, 0);
+    }
   }
 }
 

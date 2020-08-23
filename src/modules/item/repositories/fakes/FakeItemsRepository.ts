@@ -9,6 +9,12 @@ import IFindAllItemsDTO from '@modules/item/dtos/IFindAllItemsDTO';
 class FakeItemsRepository implements IItemsRepository {
   private items: Item[] = [];
 
+  public async findById(id: string): Promise<Item | undefined> {
+    const findItem = this.items.find(item => item.id === id);
+
+    return findItem;
+  }
+
   public async findAllItems({ user_id }: IFindAllItemsDTO): Promise<Item[]> {
     let { items } = this;
 

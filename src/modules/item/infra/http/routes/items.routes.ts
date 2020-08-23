@@ -19,4 +19,6 @@ itemsRouter.get('/:user_id', userItemsController.index);
 
 itemsRouter.post('/', upload.single('avatar'), itemsController.create);
 
+itemsRouter.put('/:item_id', upload.single('avatar'), itemsController.update);
+
 export default itemsRouter;

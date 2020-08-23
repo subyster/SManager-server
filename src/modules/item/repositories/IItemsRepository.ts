@@ -3,7 +3,8 @@ import ICreateItemDTO from '../dtos/ICreateItemDTO';
 import IFindAllItemsDTO from '../dtos/IFindAllItemsDTO';
 
 export default interface IItemsRepository {
-  create(data: ICreateItemDTO): Promise<Item>;
+  findById(id: string): Promise<Item | undefined>;
   findAllItems(data: IFindAllItemsDTO): Promise<Item[]>;
+  create(data: ICreateItemDTO): Promise<Item>;
   save(item: Item): Promise<Item>;
 }

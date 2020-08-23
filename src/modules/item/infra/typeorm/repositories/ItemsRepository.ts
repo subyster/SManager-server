@@ -13,6 +13,12 @@ class ItemsRepository implements IItemsRepository {
     this.ormRepository = getRepository(Item);
   }
 
+  public async findById(id: string): Promise<Item | undefined> {
+    const item = await this.ormRepository.findOne(id);
+
+    return item;
+  }
+
   public async findAllItems({ user_id }: IFindAllItemsDTO): Promise<Item[]> {
     let items: Item[];
 
