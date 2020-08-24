@@ -8,7 +8,7 @@ import Item from '../infra/typeorm/entities/Item';
 
 interface IRequest {
   item_id: string;
-  user_id: string;
+  instagram_url: string;
   name: string;
   price?: number;
   category_name: string;
@@ -32,7 +32,7 @@ class UpdateItemService {
 
   public async execute({
     item_id,
-    user_id,
+    instagram_url,
     name,
     price,
     category_name,
@@ -59,7 +59,7 @@ class UpdateItemService {
     }
 
     Object.assign(item, {
-      user_id,
+      instagram_url,
       name,
       price,
       category_name,

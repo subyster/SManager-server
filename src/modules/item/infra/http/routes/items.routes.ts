@@ -16,9 +16,12 @@ itemsRouter.use(ensureAuthenticated);
 
 itemsRouter.get('/', itemsController.index);
 itemsRouter.get('/:user_id', userItemsController.index);
+itemsRouter.get('/show/:item_id', itemsController.show);
 
 itemsRouter.post('/', upload.single('avatar'), itemsController.create);
 
-itemsRouter.put('/:item_id', upload.single('avatar'), itemsController.update);
+itemsRouter.put('/:item_id', itemsController.update);
+
+itemsRouter.delete('/:item_id', itemsController.delete);
 
 export default itemsRouter;

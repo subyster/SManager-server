@@ -14,7 +14,7 @@ class ItemsRepository implements IItemsRepository {
   }
 
   public async findById(id: string): Promise<Item | undefined> {
-    const item = await this.ormRepository.findOne(id);
+    const item = await this.ormRepository.findOne(id, { relations: ['user'] });
 
     return item;
   }
@@ -49,6 +49,7 @@ class ItemsRepository implements IItemsRepository {
     });
 
     item.status = 'pendent';
+    item.instagram_url = 'https://www.instagram.com/ju.foryou/';
 
     await this.ormRepository.save(item);
 
@@ -57,6 +58,14 @@ class ItemsRepository implements IItemsRepository {
 
   public async save(item: Item): Promise<Item> {
     return this.ormRepository.save(item);
+  }
+
+  public async delete(item_id: string): Promise<void> {
+    const item = await this.findById(item_id);
+
+    if (item) {
+      await this.ormRepository.remove(item);
+    }
   }
 }
 

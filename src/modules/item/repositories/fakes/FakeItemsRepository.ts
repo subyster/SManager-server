@@ -59,6 +59,18 @@ class FakeItemsRepository implements IItemsRepository {
 
     return item;
   }
+
+  public async delete(item_id: string): Promise<void> {
+    const item = await this.findById(item_id);
+
+    if (item) {
+      const itemIndex = this.items.findIndex(
+        findItem => findItem.id === item.id,
+      );
+
+      this.items.splice(itemIndex, 0);
+    }
+  }
 }
 
 export default FakeItemsRepository;

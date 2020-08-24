@@ -41,6 +41,9 @@ class Item {
   size: string;
 
   @Column()
+  instagram_url: string;
+
+  @Column()
   avatar: string;
 
   @Column()

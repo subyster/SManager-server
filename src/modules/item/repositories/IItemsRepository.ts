@@ -7,4 +7,5 @@ export default interface IItemsRepository {
   findAllItems(data: IFindAllItemsDTO): Promise<Item[]>;
   create(data: ICreateItemDTO): Promise<Item>;
   save(item: Item): Promise<Item>;
+  delete(item_id: string): Promise<void>;
 }
