@@ -17,6 +17,7 @@ itemsRouter.use(ensureAuthenticated);
 itemsRouter.get('/', itemsController.index);
 itemsRouter.get('/:user_id', userItemsController.index);
 itemsRouter.get('/show/:item_id', itemsController.show);
+itemsRouter.get('/search_items/:user_id', userItemsController.search);
 
 itemsRouter.post('/', upload.single('avatar'), itemsController.create);
 
