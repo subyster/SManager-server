@@ -1,3 +1,4 @@
-# Back-end Ju.foryou
+# Back-end SManager
 
-O banco de dados está sendo desenvolvido em PostgreSQL com TypeORM
+A API da aplicação SManager foi desenvolvida utilizando os princípios SOLID
+com testes unitários e o banco de dados com TypeORM e PostgreSQL.
