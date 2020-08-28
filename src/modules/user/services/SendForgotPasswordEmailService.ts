@@ -44,7 +44,7 @@ class SendForgotPasswordEmailService {
         name: user.name,
         email: user.email,
       },
-      subject: '[Juforyou] Recuperação de senha',
+      subject: '[SManager] Recuperação de senha',
       templateData: {
         file: forgotPasswordTemplate,
         variables: {

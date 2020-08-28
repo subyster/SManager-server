@@ -49,7 +49,7 @@ class ItemsRepository implements IItemsRepository {
     });
 
     item.status = 'pendent';
-    item.instagram_url = 'https://www.instagram.com/ju.foryou/';
+    item.instagram_url = '/';
 
     await this.ormRepository.save(item);
 
